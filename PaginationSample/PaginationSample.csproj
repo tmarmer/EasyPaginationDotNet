@@ -5,7 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\EasyPagination\Pagination.csproj" />
+      <ProjectReference Include="..\EasyPagination\EasyPagination.csproj" />
     </ItemGroup>
 
 </Project>
