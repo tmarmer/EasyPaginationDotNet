@@ -1,8 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyPagination", "EasyPagination\EasyPagination.csproj", "{BFD53F3F-711A-423B-A114-1079A86D0EBC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyPagination.AspNetCore", "EasyPagination.AspNetCore\EasyPagination.AspNetCore.csproj", "{BFD53F3F-711A-423B-A114-1079A86D0EBC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaginationSample", "PaginationSample\PaginationSample.csproj", "{F0AD2B87-7CFA-453F-B636-60A44A3E8B09}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyPagination.Sample", "EasyPagination.Sample\EasyPagination.Sample.csproj", "{F0AD2B87-7CFA-453F-B636-60A44A3E8B09}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

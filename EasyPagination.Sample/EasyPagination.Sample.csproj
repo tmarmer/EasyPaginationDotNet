@@ -2,14 +2,15 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp3.0</TargetFramework>
+        <RootNamespace>EasyPagination.Sample</RootNamespace>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-      <DocumentationFile>bin\Debug\netcoreapp3.0\PaginationSample.xml</DocumentationFile>
+      <DocumentationFile>bin\Debug\EasyPagination.Sample.xml</DocumentationFile>
     </PropertyGroup>
-    
+
     <ItemGroup>
-      <ProjectReference Include="..\EasyPagination\EasyPagination.csproj" />
+      <ProjectReference Include="..\EasyPagination.AspNetCore\EasyPagination.AspNetCore.csproj" />
     </ItemGroup>
 
 </Project>

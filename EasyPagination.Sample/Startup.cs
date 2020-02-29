@@ -1,5 +1,5 @@
 using System.IO;
-using EasyPagination;
+using EasyPagination.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 
-namespace PaginationSample
+namespace EasyPagination.Sample
 {
     public class Startup
     {
@@ -21,7 +21,7 @@ namespace PaginationSample
                 c.OperationFilter<PaginationOperationFilter>();
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
                 
-                var filePath = Path.Combine(System.AppContext.BaseDirectory, "PaginationSample.xml");
+                var filePath = Path.Combine(System.AppContext.BaseDirectory, "EasyPagination.Sample.xml");
                 c.IncludeXmlComments(filePath);
             });
         }

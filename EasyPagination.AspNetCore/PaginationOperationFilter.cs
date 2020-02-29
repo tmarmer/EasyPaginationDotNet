@@ -1,23 +1,11 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Diagnostics;
 using System.Linq;
-using System.Net;
 using System.Net.Mime;
-using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.Net.Http.Headers;
-using Microsoft.OpenApi.Any;
-using Microsoft.OpenApi.Expressions;
 using Microsoft.OpenApi.Models;
-using Microsoft.OpenApi.Writers;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace EasyPagination
+namespace EasyPagination.AspNetCore
 {
     public class PaginationOperationFilter : IOperationFilter
     {
