@@ -68,7 +68,7 @@ namespace EasyPagination.AspNetCore
             var startRange = _paginationParams.Offset;
             
             headers[HeaderNames.ContentRange] = $"{startRange}-{startRange + _totalItems - 1}/{_fullListCount}";
-            headers[HeaderNames.AcceptRanges] = _paginationParams.RangeType;
+            headers[HeaderNames.AcceptRanges] = _paginationParams.RangeType();
             
             var sb = new StringBuilder();
             AddLinkData(sb, _paginationParams.GetFirstOffset(_totalItems, _fullListCount), "first", baseUri);

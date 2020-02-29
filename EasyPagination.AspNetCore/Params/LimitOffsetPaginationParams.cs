@@ -5,11 +5,10 @@ namespace EasyPagination.AspNetCore.Params
 {
     public class LimitOffsetPaginationParams : IPaginationParams
     {
-        public string RangeType => "items";
-        
         [FromQuery(Name = "limit")] public int PageSize { get; set; }
         [FromQuery(Name = "offset")] public int Offset { get; set; }
 
+        public string RangeType() => "items";
         public LinkData GetFirstOffset(int actualCount, int? totalItems)
         {
             if (HasFullList(actualCount, totalItems) || Offset == 0)

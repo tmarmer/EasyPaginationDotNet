@@ -5,11 +5,10 @@ namespace EasyPagination.AspNetCore.Params
 {
     public class PageNumberPaginationParams : IPaginationParams
     {
-        public string RangeType => "pages";
-        
         [FromQuery(Name = "pageSize")] public int PageSize { get; set; }
         [FromQuery(Name = "page")] public int Offset { get; set; }
 
+        public string RangeType() => "pages";
         public LinkData GetFirstOffset(int actualCount, int? totalItems)
         {
             if (HasFullList(actualCount, totalItems) || Offset == 0)

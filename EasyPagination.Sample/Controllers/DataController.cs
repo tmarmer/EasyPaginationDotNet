@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using EasyPagination.AspNetCore;
 using EasyPagination.AspNetCore.Params;
+using EasyPagination.Sample.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,9 +11,9 @@ namespace EasyPagination.Sample.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class NumbersController : Controller
+    public class DataController : Controller
     {
-        private static readonly List<int> Numbers = Enumerable.Range(0, 1000).ToList();
+        private static readonly List<DataDto> Numbers = Enumerable.Range(0, 1000).Select(x => new DataDto() {Number = x, Id = Guid.NewGuid()}).ToList();
 
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<int>), StatusCodes.Status200OK)]
@@ -21,7 +23,7 @@ namespace EasyPagination.Sample.Controllers
         }
         
         [HttpGet("pagination-limit")]
-        [ProducesPaginatedResponseType(typeof(int))]
+        [ProducesPaginatedResponseType(typeof(DataDto))]
         public IActionResult GetLimitedNumbers([FromQuery] LimitOffsetPaginationParams limitOffsetPaginationParams)
         {
             if (!IsPaginationValid(limitOffsetPaginationParams))
@@ -29,13 +31,13 @@ namespace EasyPagination.Sample.Controllers
 
             var result = limitOffsetPaginationParams.Offset < Numbers.Count ? 
                 Numbers.GetRange(limitOffsetPaginationParams.Offset, limitOffsetPaginationParams.PageSize)
-                : new List<int>();
+                : new List<DataDto>();
 
             return new PaginationObjectResult(result, limitOffsetPaginationParams, Numbers.Count);
         }
         
         [HttpGet("pagination-pages")]
-        [ProducesPaginatedResponseType(typeof(int))]
+        [ProducesPaginatedResponseType(typeof(DataDto))]
         public IActionResult GetPagedNumbers([FromQuery] PageNumberPaginationParams pageNumberPaginationParams)
         {
             if (!IsPaginationValid(pageNumberPaginationParams))
@@ -43,7 +45,7 @@ namespace EasyPagination.Sample.Controllers
 
             var result = pageNumberPaginationParams.Offset < Numbers.Count ? 
                 Numbers.GetRange(pageNumberPaginationParams.Offset * pageNumberPaginationParams.PageSize, pageNumberPaginationParams.PageSize)
-                : new List<int>();
+                : new List<DataDto>();
 
             return new PaginationObjectResult(result, pageNumberPaginationParams, Numbers.Count);
         }
