@@ -1,0 +1,10 @@
+bin/
+obj/
+/packages/
+
+
+# General
+.DS_Store
+
+# JetBrains .idea folder
+.idea
