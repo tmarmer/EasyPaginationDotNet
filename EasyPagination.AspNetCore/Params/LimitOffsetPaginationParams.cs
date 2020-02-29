@@ -3,13 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EasyPagination.AspNetCore.Params
 {
-    public class LimitOffsetPaginationParams : IPaginationParams
+    public abstract class LimitOffsetPaginationParams : IPaginationParams
     {
-        [FromQuery(Name = "limit")] public int PageSize { get; set; }
-        [FromQuery(Name = "offset")] public int Offset { get; set; }
-
-        public string RangeType() => "items";
-        public LinkData GetFirstOffset(int actualCount, int? totalItems)
+        public abstract int PageSize { get; set; }
+        public abstract int Offset { get; set; }
+        
+        public virtual string RangeType() => "items";
+        public virtual LinkData GetFirstOffset(int actualCount, int? totalItems)
         {
             if (HasFullList(actualCount, totalItems) || Offset == 0)
                 return new LinkData { HasLinkHeader = false };
@@ -22,7 +22,7 @@ namespace EasyPagination.AspNetCore.Params
             };
         }
         
-        public LinkData GetPrevOffset(int actualCount, int? totalItems)
+        public virtual LinkData GetPrevOffset(int actualCount, int? totalItems)
         {
             if (HasFullList(actualCount, totalItems) || Offset == 0)
                 return new LinkData { HasLinkHeader = false };
@@ -35,7 +35,7 @@ namespace EasyPagination.AspNetCore.Params
             };
         }
         
-        public LinkData GetNextOffset(int actualCount, int? totalItems)
+        public virtual LinkData GetNextOffset(int actualCount, int? totalItems)
         {
             if (IsEndOfList(actualCount, totalItems))
                 return new LinkData { HasLinkHeader = false };
@@ -49,7 +49,7 @@ namespace EasyPagination.AspNetCore.Params
             };
         }
         
-        public LinkData GetLastOffset(int actualCount, int? totalItems)
+        public virtual LinkData GetLastOffset(int actualCount, int? totalItems)
         {
             if (IsEndOfList(actualCount, totalItems) || !totalItems.HasValue)
                 return new LinkData { HasLinkHeader = false };
@@ -63,7 +63,7 @@ namespace EasyPagination.AspNetCore.Params
             };
         }
 
-        private bool HasFullList(int actualCount, int? totalItems)
+        protected bool HasFullList(int actualCount, int? totalItems)
         {
             if (!totalItems.HasValue)
                 return false;
@@ -71,7 +71,7 @@ namespace EasyPagination.AspNetCore.Params
             return totalItems.Value == actualCount;
         }
 
-        private bool IsEndOfList(int actualCount, int? totalItems)
+        protected bool IsEndOfList(int actualCount, int? totalItems)
         {
             return HasFullList(actualCount, totalItems) || (totalItems.HasValue && Offset + PageSize >= totalItems);
         }

@@ -13,41 +13,42 @@ namespace EasyPagination.Sample.Controllers
     [Route("api/[controller]")]
     public class DataController : Controller
     {
-        private static readonly List<DataDto> Numbers = Enumerable.Range(0, 1000).Select(x => new DataDto() {Number = x, Id = Guid.NewGuid()}).ToList();
+        private static readonly List<DataDto> Data = Enumerable.Range(0, 1000).Select(x => new DataDto() {Number = x, Id = Guid.NewGuid()}).ToList();
 
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<int>), StatusCodes.Status200OK)]
         public IActionResult GetAllNumbers()
         {
-            return Ok(Numbers);
+            return Ok(Data);
         }
         
         [HttpGet("pagination-limit")]
         [ProducesPaginatedResponseType(typeof(DataDto))]
-        public IActionResult GetLimitedNumbers([FromQuery] LimitOffsetPaginationParams limitOffsetPaginationParams)
+        public IActionResult GetLimitedData([FromQuery] LimitPaginationQueryParams paginationQuery)
         {
-            if (!IsPaginationValid(limitOffsetPaginationParams))
+            if (!IsPaginationValid(paginationQuery))
                 return BadRequest("Bad pagination");
 
-            var result = limitOffsetPaginationParams.Offset < Numbers.Count ? 
-                Numbers.GetRange(limitOffsetPaginationParams.Offset, limitOffsetPaginationParams.PageSize)
+            var result = paginationQuery.Offset < Data.Count ? 
+                Data.GetRange(paginationQuery.Offset, Math.Min(paginationQuery.PageSize, Data.Count - paginationQuery.Offset))
                 : new List<DataDto>();
 
-            return new PaginationObjectResult(result, limitOffsetPaginationParams, Numbers.Count);
+            return new PaginationObjectResult(result, paginationQuery, Data.Count);
         }
         
         [HttpGet("pagination-pages")]
         [ProducesPaginatedResponseType(typeof(DataDto))]
-        public IActionResult GetPagedNumbers([FromQuery] PageNumberPaginationParams pageNumberPaginationParams)
+        public IActionResult GetPagedData([FromQuery] PagedPaginationQueryParams paginationQuery)
         {
-            if (!IsPaginationValid(pageNumberPaginationParams))
+            if (!IsPaginationValid(paginationQuery))
                 return BadRequest("Bad pagination");
 
-            var result = pageNumberPaginationParams.Offset < Numbers.Count ? 
-                Numbers.GetRange(pageNumberPaginationParams.Offset * pageNumberPaginationParams.PageSize, pageNumberPaginationParams.PageSize)
+            var nextRangeStart = paginationQuery.Offset * paginationQuery.PageSize;
+            var result = paginationQuery.Offset < Data.Count ? 
+                Data.GetRange(nextRangeStart, Math.Min(paginationQuery.PageSize, Data.Count - nextRangeStart))
                 : new List<DataDto>();
 
-            return new PaginationObjectResult(result, pageNumberPaginationParams, Numbers.Count);
+            return new PaginationObjectResult(result, paginationQuery, Data.Count);
         }
         
         private const int MaxLimit = 100;
