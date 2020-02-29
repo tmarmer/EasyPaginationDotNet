@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using EasyPagination;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace PaginationSample.Controllers
 {
+    [ApiController]
     [Route("api/[controller]")]
     public class NumbersController : Controller
     {
@@ -19,10 +21,7 @@ namespace PaginationSample.Controllers
         }
         
         [HttpGet("pagination-limit")]
-        [ProducesResponseType(typeof(IEnumerable<int>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(IEnumerable<int>), StatusCodes.Status206PartialContent)]
-        [ProducesResponseType( StatusCodes.Status416RangeNotSatisfiable)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesPaginatedResponseType(typeof(int))]
         public IActionResult GetLimitedNumbers([FromQuery] PaginationParams paginationParams)
         {
             if (!IsPaginationValid(paginationParams))

@@ -1,3 +1,5 @@
+using System.IO;
+using EasyPagination;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -16,7 +18,11 @@ namespace PaginationSample
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
+                c.OperationFilter<PaginationOperationFilter>();
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+                
+                var filePath = Path.Combine(System.AppContext.BaseDirectory, "PaginationSample.xml");
+                c.IncludeXmlComments(filePath);
             });
         }
 

@@ -4,6 +4,10 @@
         <TargetFramework>netcoreapp3.0</TargetFramework>
     </PropertyGroup>
 
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <DocumentationFile>bin\Debug\netcoreapp3.0\PaginationSample.xml</DocumentationFile>
+    </PropertyGroup>
+    
     <ItemGroup>
       <ProjectReference Include="..\EasyPagination\EasyPagination.csproj" />
     </ItemGroup>
