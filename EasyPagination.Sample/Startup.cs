@@ -1,7 +1,9 @@
 using System.IO;
 using EasyPagination.AspNetCore;
+using EasyPagination.AspNetCore.Enums;
 using EasyPagination.AspNetCore.PageCalculation;
 using EasyPagination.AspNetCore.Params;
+using EasyPagination.Sample.Params;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -22,13 +24,14 @@ namespace EasyPagination.Sample
             {
                 c.EnablePagination();
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
-                
-                var filePath = Path.Combine(System.AppContext.BaseDirectory, "EasyPagination.Sample.xml");
-                c.IncludeXmlComments(filePath);
             });
-            services.UsePagination(options =>
+            services.UsePagination(pageCalculationOptions =>
             {
-                options.RegisterDefaultCalculators();
+                pageCalculationOptions.RegisterDefaultCalculators();
+                pageCalculationOptions.RegisterPageCalculator<MyPaginationParams>(opts =>
+                {
+                    opts.UseDefaultCalculation(PaginationType.LimitItems);
+                });
             });
         }
 

@@ -4,6 +4,7 @@ using System.Linq;
 using EasyPagination.AspNetCore;
 using EasyPagination.AspNetCore.Params;
 using EasyPagination.Sample.DTOs;
+using EasyPagination.Sample.Params;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -49,6 +50,22 @@ namespace EasyPagination.Sample.Controllers
                 : new List<DataDto>();
 
             return new PaginationObjectResult(result, paginationQuery, Data.Count);
+        }
+        
+        [HttpGet("my-pagination")]
+        [ProducesPaginatedResponseType(typeof(DataDto))]
+        public IActionResult GetPagedData([FromQuery] MyPaginationParams paginationQuery)
+        {
+            if (!IsPaginationValid(paginationQuery))
+                return BadRequest("Bad pagination");
+
+            var filteredData = Data.Where(x => x.Number >= paginationQuery.MinimumNumber).ToList();
+            
+            var result = paginationQuery.Offset < filteredData.Count ? 
+                filteredData.GetRange(paginationQuery.Offset, Math.Min(paginationQuery.Limit, filteredData.Count - paginationQuery.Offset))
+                : new List<DataDto>();
+
+            return new PaginationObjectResult(result, paginationQuery, filteredData.Count);
         }
         
         private const int MaxLimit = 100;

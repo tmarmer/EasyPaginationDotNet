@@ -5,10 +5,6 @@
         <RootNamespace>EasyPagination.Sample</RootNamespace>
     </PropertyGroup>
 
-    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-      <DocumentationFile>bin\Debug\EasyPagination.Sample.xml</DocumentationFile>
-    </PropertyGroup>
-
     <ItemGroup>
       <ProjectReference Include="..\EasyPagination.AspNetCore\EasyPagination.AspNetCore.csproj" />
     </ItemGroup>
