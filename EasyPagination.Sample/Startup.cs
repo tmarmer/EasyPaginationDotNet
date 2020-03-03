@@ -1,5 +1,7 @@
 using System.IO;
 using EasyPagination.AspNetCore;
+using EasyPagination.AspNetCore.PageCalculation;
+using EasyPagination.AspNetCore.Params;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -15,14 +17,18 @@ namespace EasyPagination.Sample
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers(x => x.AddPaginationOptions());
             services.AddSwaggerGen(c =>
             {
-                c.OperationFilter<PaginationOperationFilter>();
+                c.EnablePagination();
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
                 
                 var filePath = Path.Combine(System.AppContext.BaseDirectory, "EasyPagination.Sample.xml");
                 c.IncludeXmlComments(filePath);
+            });
+            services.UsePagination(options =>
+            {
+                options.RegisterDefaultCalculators();
             });
         }
 
