@@ -30,10 +30,12 @@ namespace EasyPagination.AspNetCore
             var startRange = paginationParams.GetOffset();
             var itemCount = paginationResult.ItemCount;
             var totalItems = paginationResult.TotalItems;
+
+            var paginationInfo = new PaginationInfo(paginationParams, baseUri, itemCount, totalItems);
             
             headers[HeaderNames.ContentRange] = $"{startRange}-{startRange + itemCount - 1}/{totalItems?.ToString() ?? "*"}";
 
-            var pages = _pageCalculator.Calculate(paginationParams, baseUri, itemCount, totalItems);
+            var pages = _pageCalculator.Calculate(paginationInfo);
             var linkHeader = string.Join(", ", pages.Where(x => !(x?.PageLink is null)).Select(x => x.ToLinkString()));
 
             if (!string.IsNullOrEmpty(linkHeader))

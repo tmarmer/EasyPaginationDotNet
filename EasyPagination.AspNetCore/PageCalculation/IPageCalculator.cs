@@ -6,7 +6,6 @@ namespace EasyPagination.AspNetCore.PageCalculation
 {
     public interface IPageCalculator
     {
-        IEnumerable<PageData> GetAllPages(IPaginationParams paginationParams, Uri baseUri, int itemCount,
-            int? totalItems);
+        IEnumerable<PageData> GetAllPages(PaginationInfo paginationInfo);
     }
 }

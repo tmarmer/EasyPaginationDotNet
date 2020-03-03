@@ -6,8 +6,13 @@ namespace EasyPagination.AspNetCore.PageCalculation
 {
     public static class StaticLimitOffsetCalculator
     {
-        public static PageData GetFirstPage(IPaginationParams paginationParams, Uri baseUri, int itemCount, int? totalItems)
+        public static PageData GetFirstPage(PaginationInfo paginationInfo)
         {
+            var totalItems = paginationInfo.TotalItems;
+            var itemCount = paginationInfo.ItemCount;
+            var paginationParams = paginationInfo.PaginationParams;
+            var baseUri = paginationInfo.BaseUri;
+            
             if (HasFullList(itemCount, totalItems) || paginationParams.GetOffset() == 0)
                 return new PageData();
             
@@ -18,8 +23,13 @@ namespace EasyPagination.AspNetCore.PageCalculation
             };
         }
         
-        public static PageData GetPreviousPage(IPaginationParams paginationParams, Uri baseUri, int itemCount, int? totalItems)
+        public static PageData GetPreviousPage(PaginationInfo paginationInfo)
         {
+            var totalItems = paginationInfo.TotalItems;
+            var itemCount = paginationInfo.ItemCount;
+            var paginationParams = paginationInfo.PaginationParams;
+            var baseUri = paginationInfo.BaseUri;
+            
             var offset = paginationParams.GetOffset();
             var pageSize = paginationParams.GetPageSize();
             
@@ -33,8 +43,13 @@ namespace EasyPagination.AspNetCore.PageCalculation
             };
         }
         
-        public static PageData GetNextPage(IPaginationParams paginationParams, Uri baseUri, int itemCount, int? totalItems)
+        public static PageData GetNextPage(PaginationInfo paginationInfo)
         {
+            var totalItems = paginationInfo.TotalItems;
+            var itemCount = paginationInfo.ItemCount;
+            var paginationParams = paginationInfo.PaginationParams;
+            var baseUri = paginationInfo.BaseUri;
+            
             if (IsEndOfList(paginationParams, itemCount, totalItems))
                 return new PageData();
             
@@ -48,8 +63,13 @@ namespace EasyPagination.AspNetCore.PageCalculation
             };
         }
         
-        public static PageData GetLastPage(IPaginationParams paginationParams, Uri baseUri, int itemCount, int? totalItems)
+        public static PageData GetLastPage(PaginationInfo paginationInfo)
         {
+            var totalItems = paginationInfo.TotalItems;
+            var itemCount = paginationInfo.ItemCount;
+            var paginationParams = paginationInfo.PaginationParams;
+            var baseUri = paginationInfo.BaseUri;
+            
             if (!totalItems.HasValue || IsEndOfList(paginationParams, itemCount, totalItems))
                 return new PageData();
             

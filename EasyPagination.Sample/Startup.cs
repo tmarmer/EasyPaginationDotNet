@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using EasyPagination.AspNetCore;
 using EasyPagination.AspNetCore.Enums;
@@ -31,6 +32,10 @@ namespace EasyPagination.Sample
                 pageCalculationOptions.RegisterPageCalculator<MyPaginationParams>(opts =>
                 {
                     opts.UseDefaultCalculation(PaginationType.LimitItems);
+                    opts.SetPageCalculation("woah", info => new PageData
+                    {
+                        PageLink = new Uri($"{info.BaseUri}&henlo=boba")
+                    });
                 });
             });
         }

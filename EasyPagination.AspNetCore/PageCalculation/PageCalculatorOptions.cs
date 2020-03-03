@@ -7,18 +7,18 @@ namespace EasyPagination.AspNetCore.PageCalculation
 {
     public class PageCalculatorOptions
     {
-        private readonly Dictionary<string, Func<IPaginationParams, Uri, int, int?, PageData>> _pageDataCalculators;
+        private readonly Dictionary<string, Func<PaginationInfo, PageData>> _pageDataCalculators;
         public PageCalculatorOptions()
         {
-            _pageDataCalculators = new Dictionary<string, Func<IPaginationParams, Uri, int, int?, PageData>>();
+            _pageDataCalculators = new Dictionary<string, Func<PaginationInfo, PageData>>();
         }
 
         public void SetPageCalculation(LinkRelationship relationship,
-            Func<IPaginationParams, Uri, int, int?, PageData> function)
+            Func<PaginationInfo, PageData> function)
             => _pageDataCalculators[relationship.GetLinkHeaderValue()] = function;
         
         public void SetPageCalculation(string relationship,
-            Func<IPaginationParams, Uri, int, int?, PageData> function)
+            Func<PaginationInfo, PageData> function)
             => _pageDataCalculators[relationship] = function;
 
         public void UseDefaultCalculation(PaginationType paginationType)

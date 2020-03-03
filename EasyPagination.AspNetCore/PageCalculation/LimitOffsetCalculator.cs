@@ -6,13 +6,13 @@ namespace EasyPagination.AspNetCore.PageCalculation
 {
     public class LimitOffsetCalculator : IPageCalculator
     {
-        public IEnumerable<PageData> GetAllPages(IPaginationParams paginationParams, Uri baseUri, int itemCount, int? totalItems) =>
+        public IEnumerable<PageData> GetAllPages(PaginationInfo paginationInfo) =>
             new[]
             {
-                StaticLimitOffsetCalculator.GetFirstPage(paginationParams, baseUri, itemCount, totalItems),
-                StaticLimitOffsetCalculator.GetPreviousPage(paginationParams, baseUri, itemCount, totalItems),
-                StaticLimitOffsetCalculator.GetNextPage(paginationParams, baseUri, itemCount, totalItems),
-                StaticLimitOffsetCalculator.GetLastPage(paginationParams, baseUri, itemCount, totalItems)
+                StaticLimitOffsetCalculator.GetFirstPage(paginationInfo),
+                StaticLimitOffsetCalculator.GetPreviousPage(paginationInfo),
+                StaticLimitOffsetCalculator.GetNextPage(paginationInfo),
+                StaticLimitOffsetCalculator.GetLastPage(paginationInfo)
             };
     }
 }
