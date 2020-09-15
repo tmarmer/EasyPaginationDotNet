@@ -1,9 +1,6 @@
 using System;
-using System.IO;
 using EasyPagination.AspNetCore;
 using EasyPagination.AspNetCore.Enums;
-using EasyPagination.AspNetCore.PageCalculation;
-using EasyPagination.AspNetCore.Params;
 using EasyPagination.Sample.Params;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -18,16 +15,19 @@ namespace EasyPagination.Sample
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            //Setup controllers and swagger
+            //Setup controllers with PaginationActionFilter
             services.AddControllers(x => x.AddPaginationOptions());
+            
+            //Setup swagger if you want
             services.AddSwaggerGen(c =>
             {
+                //Add pagination features to swagger to ensure correct status codes are displayed
                 c.EnablePagination();
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
             });
             
             /*
-             * To enable simple pagination using just the default built-in types, use:
+             * To enable simple pagination using just the default built-in types, replace the below code with one of these:
              * services.UsePagination<LimitOffsetParams>(PaginationType.LimitItems);
              * --- OR ---
              * services.UsePagination<PagesParams>(PaginationType.Pages);
@@ -50,14 +50,12 @@ namespace EasyPagination.Sample
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        // No pagination options are setup in the configure step, so set this up however you want.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
-            {
                 app.UseDeveloperExceptionPage();
-            }
-            
+
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {

@@ -22,13 +22,9 @@ namespace EasyPagination.AspNetCore.PageCalculation
         
         public void RegisterPageCalculator<T>(IPageCalculator pageCalculator)
             where T : IPaginationParams
-        {
-            _pageDataCalculators[typeof(T)] = pageCalculator;
-        }
+            => _pageDataCalculators[typeof(T)] = pageCalculator;
 
-        public IPageCalculationService GenerateCalculationService()
-        {
-            return new PageCalculationService(_pageDataCalculators);
-        }
+        public IPageCalculationService GenerateCalculationService() 
+            => new PageCalculationService(_pageDataCalculators);
     }
 }

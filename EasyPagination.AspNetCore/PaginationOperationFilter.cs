@@ -12,6 +12,7 @@ namespace EasyPagination.AspNetCore
         private const string RangeNotSatisfiableDescription = "Pagination parameters out of range.";
         private const string OkDescription = "List of all items. No other pages.";
         private const string PartialContentDescription = "List of some items. Other pages will be linked in the 'Links' header.";
+        private const string NoContentDescription = "No results available, but no offset so input is valid.";
         
         public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {
@@ -23,6 +24,7 @@ namespace EasyPagination.AspNetCore
             var responses = operation.Responses;
 
             EnsureApiResponse(responses, StatusCodes.Status416RangeNotSatisfiable, RangeNotSatisfiableDescription);
+            EnsureApiResponse(responses, StatusCodes.Status204NoContent, NoContentDescription);
             UpdateResponse(EnsureApiResponse(responses, StatusCodes.Status200OK, OkDescription), schema);
             UpdateResponse(EnsureApiResponse(responses, StatusCodes.Status206PartialContent, PartialContentDescription), schema);
         }

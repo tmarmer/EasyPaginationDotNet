@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using EasyPagination.AspNetCore.Enums;
-using EasyPagination.AspNetCore.Params;
 
 namespace EasyPagination.AspNetCore.PageCalculation
 {
@@ -34,16 +33,16 @@ namespace EasyPagination.AspNetCore.PageCalculation
             switch (paginationType)
             {
                 case PaginationType.Pages:
-                    _pageDataCalculators[LinkRelationship.First.GetLinkHeaderValue()] = StaticPagesCalculator.GetFirstPage;
-                    _pageDataCalculators[LinkRelationship.Previous.GetLinkHeaderValue()] = StaticPagesCalculator.GetPreviousPage;
-                    _pageDataCalculators[LinkRelationship.Next.GetLinkHeaderValue()] = StaticPagesCalculator.GetNextPage;
-                    _pageDataCalculators[LinkRelationship.Last.GetLinkHeaderValue()] = StaticPagesCalculator.GetLastPage;
+                    _pageDataCalculators[LinkRelationship.First.GetLinkHeaderValue()] = PagesCalculator.GetFirstPage;
+                    _pageDataCalculators[LinkRelationship.Previous.GetLinkHeaderValue()] = PagesCalculator.GetPreviousPage;
+                    _pageDataCalculators[LinkRelationship.Next.GetLinkHeaderValue()] = PagesCalculator.GetNextPage;
+                    _pageDataCalculators[LinkRelationship.Last.GetLinkHeaderValue()] = PagesCalculator.GetLastPage;
                     break;
                 case PaginationType.LimitItems:
-                    _pageDataCalculators[LinkRelationship.First.GetLinkHeaderValue()] = StaticLimitOffsetCalculator.GetFirstPage;
-                    _pageDataCalculators[LinkRelationship.Previous.GetLinkHeaderValue()] = StaticLimitOffsetCalculator.GetPreviousPage;
-                    _pageDataCalculators[LinkRelationship.Next.GetLinkHeaderValue()] = StaticLimitOffsetCalculator.GetNextPage;
-                    _pageDataCalculators[LinkRelationship.Last.GetLinkHeaderValue()] = StaticLimitOffsetCalculator.GetLastPage;
+                    _pageDataCalculators[LinkRelationship.First.GetLinkHeaderValue()] = LimitOffsetCalculator.GetFirstPage;
+                    _pageDataCalculators[LinkRelationship.Previous.GetLinkHeaderValue()] = LimitOffsetCalculator.GetPreviousPage;
+                    _pageDataCalculators[LinkRelationship.Next.GetLinkHeaderValue()] = LimitOffsetCalculator.GetNextPage;
+                    _pageDataCalculators[LinkRelationship.Last.GetLinkHeaderValue()] = LimitOffsetCalculator.GetLastPage;
                     break;
             }
         }
