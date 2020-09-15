@@ -57,24 +57,6 @@ namespace EasyPagination.Sample.Controllers
             return new PaginationObjectResult(result, paginationQuery, Data.Count);
         }
         
-        //Sample pagination using custom MyPaginationParams
-        [HttpGet("my-pagination")]
-        [ProducesPaginatedResponseType(typeof(DataDto))]
-        public IActionResult GetPagedData([FromQuery] MyPaginationParams paginationQuery)
-        {
-            if (!IsPaginationValid(paginationQuery))
-                return BadRequest("Bad pagination");
-
-            var filteredData = Data.Where(x => x.Number >= paginationQuery.MinimumNumber).ToList();
-            
-            var result = paginationQuery.Offset < filteredData.Count ? 
-                filteredData.GetRange(paginationQuery.Offset, Math.Min(paginationQuery.Limit, filteredData.Count - paginationQuery.Offset))
-                : new List<DataDto>();
-
-            //Pagination object result must include the items being returned, the initial query options and the max number of items if available
-            return new PaginationObjectResult(result, paginationQuery, filteredData.Count);
-        }
-        
         private const int MaxLimit = 100;
         
         private bool IsPaginationValid(IPaginationParams limitOffsetPaginationParams)

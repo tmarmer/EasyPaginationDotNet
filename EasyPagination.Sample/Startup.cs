@@ -15,8 +15,8 @@ namespace EasyPagination.Sample
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            //Setup controllers with PaginationActionFilter
-            services.AddControllers(x => x.AddPaginationOptions());
+            //Setup controllers
+            services.AddControllers();
             
             //Setup swagger if you want
             services.AddSwaggerGen(c =>

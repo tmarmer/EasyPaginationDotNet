@@ -28,15 +28,12 @@ namespace EasyPagination.AspNetCore
             };
         }
 
-        public static void AddPaginationOptions(this MvcOptions options)
-            => options.Filters.Add<PaginationActionFilter>();
-
         public static IServiceCollection UsePagination(this IServiceCollection serviceCollection,
             Action<PageCalculationOptions> options)
         {
             var pageCalc = new PageCalculationOptions();
             options(pageCalc);
-            return serviceCollection.AddSingleton<IPageCalculationService>(pageCalc.GenerateCalculationService());
+            return serviceCollection.AddSingleton(pageCalc.GenerateCalculationService());
         }
 
         public static string GetLinkHeaderValue(this LinkRelationship linkRelationship)
