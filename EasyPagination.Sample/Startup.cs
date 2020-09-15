@@ -16,26 +16,36 @@ namespace EasyPagination.Sample
 {
     public class Startup
     {
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            //Setup controllers and swagger
             services.AddControllers(x => x.AddPaginationOptions());
             services.AddSwaggerGen(c =>
             {
                 c.EnablePagination();
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
             });
+            
+            /*
+             * To enable simple pagination using just the default built-in types, use:
+             * services.UsePagination<LimitOffsetParams>(PaginationType.LimitItems);
+             * --- OR ---
+             * services.UsePagination<PagesParams>(PaginationType.Pages);
+             */
+
+            //Enable pagination with custom options
             services.UsePagination(pageCalculationOptions =>
             {
+                //Register calculators for built-in param types: LimitOffsetParams, PagesParams
                 pageCalculationOptions.RegisterDefaultCalculators();
+                
+                //Register custom page calculators to create new links in the Link header
                 pageCalculationOptions.RegisterPageCalculator<MyPaginationParams>(opts =>
                 {
+                    //Use the same link calculation for First, Last, Prev, and Next links as the default for LimitOffsetParams
                     opts.UseDefaultCalculation(PaginationType.LimitItems);
-                    opts.SetPageCalculation("woah", info => new PageData
-                    {
-                        PageLink = new Uri($"{info.BaseUri}&henlo=boba")
-                    });
+                    //Have an extra link with relationship "Test"
+                    opts.SetPageCalculation("Test", info => new Uri($"{info.BaseUri}&hello=world"));
                 });
             });
         }

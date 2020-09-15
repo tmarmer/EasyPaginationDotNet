@@ -16,6 +16,7 @@ namespace EasyPagination.Sample.Controllers
     {
         private static readonly List<DataDto> Data = Enumerable.Range(0, 1000).Select(x => new DataDto() {Number = x, Id = Guid.NewGuid()}).ToList();
 
+        //Sample endpoint to show all data with no pagination
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<int>), StatusCodes.Status200OK)]
         public IActionResult GetAllNumbers()
@@ -23,6 +24,7 @@ namespace EasyPagination.Sample.Controllers
             return Ok(Data);
         }
         
+        //Sample pagination using built-in LimitOffsetParams
         [HttpGet("pagination-limit")]
         [ProducesPaginatedResponseType(typeof(DataDto))]
         public IActionResult GetLimitedData([FromQuery] LimitOffsetParams paginationQuery)
@@ -34,9 +36,11 @@ namespace EasyPagination.Sample.Controllers
                 Data.GetRange(paginationQuery.Offset, Math.Min(paginationQuery.Limit, Data.Count - paginationQuery.Offset))
                 : new List<DataDto>();
 
-            return new PaginationObjectResult(result, paginationQuery, Data.Count);
+            //Pagination object result must include the items being returned, the initial query options and the max number of items if available
+            return new PaginationObjectResult(result, paginationQuery);
         }
         
+        //Sample pagination using built-in PagesParams
         [HttpGet("pagination-pages")]
         [ProducesPaginatedResponseType(typeof(DataDto))]
         public IActionResult GetPagedData([FromQuery] PagesParams paginationQuery)
@@ -49,9 +53,11 @@ namespace EasyPagination.Sample.Controllers
                 Data.GetRange(nextRangeStart, Math.Min(paginationQuery.PageSize, Data.Count - nextRangeStart))
                 : new List<DataDto>();
 
+            //Pagination object result must include the items being returned, the initial query options and the max number of items if available
             return new PaginationObjectResult(result, paginationQuery, Data.Count);
         }
         
+        //Sample pagination using custom MyPaginationParams
         [HttpGet("my-pagination")]
         [ProducesPaginatedResponseType(typeof(DataDto))]
         public IActionResult GetPagedData([FromQuery] MyPaginationParams paginationQuery)
@@ -65,6 +71,7 @@ namespace EasyPagination.Sample.Controllers
                 filteredData.GetRange(paginationQuery.Offset, Math.Min(paginationQuery.Limit, filteredData.Count - paginationQuery.Offset))
                 : new List<DataDto>();
 
+            //Pagination object result must include the items being returned, the initial query options and the max number of items if available
             return new PaginationObjectResult(result, paginationQuery, filteredData.Count);
         }
         

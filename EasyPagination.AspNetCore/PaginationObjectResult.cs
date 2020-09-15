@@ -12,7 +12,7 @@ namespace EasyPagination.AspNetCore
         public readonly int? TotalItems;
         public readonly int ItemCount;
         
-        public PaginationObjectResult(ICollection value, IPaginationParams paginationParams, int? totalItems) : base(value)
+        public PaginationObjectResult(ICollection value, IPaginationParams paginationParams, int? totalItems = null) : base(value)
         {
             PaginationParams = paginationParams;
             TotalItems = totalItems;

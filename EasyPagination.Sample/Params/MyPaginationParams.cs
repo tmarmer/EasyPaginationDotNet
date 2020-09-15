@@ -5,17 +5,21 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EasyPagination.Sample.Params
 {
+    //Sample custom IPagination params
     public class MyPaginationParams : IPaginationParams
     {
         public const int MaxLimit = 100;
         public const int MinimumLimit = 10;
         public const int DefaultLimit = 25;
 
-        public const string LimitName = "LiMiT";
-        public const string OffsetName = "oFfSeT";
-        public const string MinimumNumberName = "NiminunMunber";
+        public const string LimitName = "limit";
+        public const string OffsetName = "offset";
+        public const string MinimumNumberName = "MinimumNumber";
 
         private int _limit = DefaultLimit;
+        /*
+         * Define query params with possible default values
+         */
         [FromQuery(Name = LimitName)]
         [DefaultValue(DefaultLimit)]
         public int Limit
@@ -39,7 +43,10 @@ namespace EasyPagination.Sample.Params
             get => _minimumNumber;
             set => _minimumNumber = Math.Max(0, value);
         }
-
+        
+        /*
+         * Implement the interface methods
+         */
         public int GetPageSize() => _limit;
         public int GetOffset() => _offset;
         public string GetPageSizeName() => LimitName;

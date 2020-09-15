@@ -14,12 +14,20 @@ namespace EasyPagination.AspNetCore.PageCalculation
         }
 
         public void SetPageCalculation(LinkRelationship relationship,
-            Func<PaginationInfo, PageData> function)
-            => _pageDataCalculators[relationship.GetLinkHeaderValue()] = function;
+            Func<PaginationInfo, Uri> function)
+            => _pageDataCalculators[relationship.GetLinkHeaderValue()] = info => new PageData
+            {
+                PageLink = function(info),
+                LinkRelationshipType = relationship.GetLinkHeaderValue()
+            };
         
         public void SetPageCalculation(string relationship,
-            Func<PaginationInfo, PageData> function)
-            => _pageDataCalculators[relationship] = function;
+            Func<PaginationInfo, Uri> function)
+            => _pageDataCalculators[relationship] = info => new PageData
+            {
+                PageLink = function(info),
+                LinkRelationshipType = relationship
+            };
 
         public void UseDefaultCalculation(PaginationType paginationType)
         {
