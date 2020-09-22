@@ -3,8 +3,6 @@ name: NuGet Push
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
 
 jobs:
   build:
@@ -21,4 +19,4 @@ jobs:
     - name: Build
       run: dotnet build --configuration Release --no-restore
     - name: Publish
-      run: dotnet nuget push ${{GITHUB_WORKSPACE}}/EasyPagination.AspNetCore/bin/Release/EasyPagination*.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json
+      run: dotnet nuget push ./EasyPagination.AspNetCore/bin/Release/EasyPagination*.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json
